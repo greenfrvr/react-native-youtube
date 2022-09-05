@@ -151,6 +151,12 @@ export default class YouTube extends React.Component {
     }
   };
 
+  _onProgress = (event) => {
+    if (this.props.onProgress) {
+      this.props.onProgress(event.nativeEvent);
+    }
+  };
+
   seekTo(seconds) {
     UIManager.dispatchViewManagerCommand(
       ReactNative.findNodeHandle(this._nativeComponentRef.current),
@@ -214,6 +220,7 @@ export default class YouTube extends React.Component {
           onYouTubeChangeState={this._onChangeState}
           onYouTubeChangeQuality={this._onChangeQuality}
           onYouTubeChangeFullscreen={this._onChangeFullscreen}
+          onYouTubeProgress={this._onProgress}
         />
       </View>
     );

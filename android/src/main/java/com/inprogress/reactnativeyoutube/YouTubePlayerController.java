@@ -13,6 +13,8 @@ import com.facebook.react.bridge.ReadableArray;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.Runnable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class YouTubePlayerController implements
@@ -42,6 +44,7 @@ public class YouTubePlayerController implements
     private int mControls = 1;
     private boolean mShowFullscreenButton = true;
     private boolean mResumePlay = true;
+    private Timer mTimer = null;
 
     public YouTubePlayerController(YouTubeView youTubeView) {
         mYouTubeView = youTubeView;
@@ -75,16 +78,26 @@ public class YouTubePlayerController implements
     @Override
     public void onPlaying() {
         mYouTubeView.didChangeToState("playing");
+
+        mTimer = new Timer();
+        mTimer.scheduleAtFixedRate(new TimerTask(){
+            @Override
+            public void run(){
+                mYouTubeView.didChangeCurrentTime(mYouTubePlayer.getCurrentTimeMillis() / 1000.0);
+            }
+        },0,500);
     }
 
     @Override
     public void onPaused() {
         mYouTubeView.didChangeToState("paused");
+        stopTimer();
     }
 
     @Override
     public void onStopped() {
         mYouTubeView.didChangeToState("stopped");
+        stopTimer();
     }
 
     @Override
@@ -336,6 +349,13 @@ public class YouTubePlayerController implements
 
     private boolean isResumePlay() {
         return mResumePlay;
+    }
+
+    private void stopTimer() {
+        if (mTimer != null) {
+            mTimer.cancel();;
+            mTimer.purge();
+        }
     }
 
     /**

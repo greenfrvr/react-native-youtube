@@ -84,7 +84,9 @@ public class YouTubeManager extends SimpleViewManager<YouTubeView> {
             "quality",
             (Object) MapBuilder.of("registrationName", "onYouTubeChangeQuality"),
             "fullscreen",
-            (Object) MapBuilder.of("registrationName", "onYouTubeChangeFullscreen")
+            (Object) MapBuilder.of("registrationName", "onYouTubeChangeFullscreen"),
+            "progress",
+            (Object) MapBuilder.of("registrationName", "onYouTubeProgress")
         );
     }
 
