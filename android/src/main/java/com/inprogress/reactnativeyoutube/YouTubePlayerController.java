@@ -83,7 +83,11 @@ public class YouTubePlayerController implements
         mTimer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run(){
-                mYouTubeView.didChangeCurrentTime(mYouTubePlayer.getCurrentTimeMillis() / 1000.0);
+                try {
+                    mYouTubeView.didChangeCurrentTime(mYouTubePlayer.getCurrentTimeMillis() / 1000.0);
+                } catch (IllegalStateException e) {
+                    stopTimer();
+                }
             }
         },0,500);
     }
